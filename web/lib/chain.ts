@@ -19,10 +19,12 @@ export const ADDRESSES = {
   vrt: "0x62bf26Aa2eA6F24Edd94bd427F27cc01f37f9Ff4",
   faucet: "0x8E6804e22e89d16b4219c7b16F29693044141Ab3",
   // Corrected reward farms (deposits actually earn claimable VRT per user).
-  // ltcFarm: stake WzkLTC → earn VRT.  vrtFarm: stake VRT → earn VRT.
-  ltcFarm: "0x00Ab77F155063D0184d21e25AE43Da6381bb6CBb",
+  // ltcVault: ERC-4626 WzkLTC vault that distributes VRT (the LTC earn path).
+  // vrtFarm: stake VRT → earn VRT (MasterChef farm).
+  ltcVault: "0x1fa8b99b6f91ED960F5Ff2B7f7f82FBfBd586c76",
   vrtFarm: "0xD352A21aa4562ea52fAe6A0cED290d6772FC6b8E",
   // legacy (kept for reference / explorer links; no longer used by the UI)
+  ltcFarm: "0x00Ab77F155063D0184d21e25AE43Da6381bb6CBb",
   strategy: "0xB60D2cAc0BC5334e706391ee2Da5B513a0d704e6",
   vault: "0x6522245155A9EfAAb6686d22d4d46D906FB27A32",
   timelockStaking: "0xC702D4A4267Cb1fe6209BccA03B8551A573b5d0a",
@@ -134,6 +136,30 @@ export const YIELDFARM_ABI = [
   "function rewardToken() view returns (address)",
   "event Staked(address indexed user, uint256 amount)",
   "event Withdrawn(address indexed user, uint256 amount)",
+  "event RewardPaid(address indexed user, uint256 amount)",
+];
+
+/** ERC-4626 LTC vault that also distributes VRT rewards (the LTC earn path). */
+export const LTCVAULT_ABI = [
+  "function deposit(uint256 assets, address receiver) returns (uint256)",
+  "function withdraw(uint256 assets, address receiver, address owner) returns (uint256)",
+  "function redeem(uint256 shares, address receiver, address owner) returns (uint256)",
+  "function maxWithdraw(address) view returns (uint256)",
+  "function balanceOf(address) view returns (uint256)",
+  "function totalAssets() view returns (uint256)",
+  "function totalSupply() view returns (uint256)",
+  "function convertToAssets(uint256) view returns (uint256)",
+  "function asset() view returns (address)",
+  "function earned(address) view returns (uint256)",
+  "function claim()",
+  "function rewardRate() view returns (uint256)",
+  "function rewardPerDay() view returns (uint256)",
+  "function rewardsAvailable() view returns (uint256)",
+  "function totalRewardsClaimed() view returns (uint256)",
+  "function paused() view returns (bool)",
+  "function owner() view returns (address)",
+  "event Deposit(address indexed sender, address indexed owner, uint256 assets, uint256 shares)",
+  "event Withdraw(address indexed sender, address indexed receiver, address indexed owner, uint256 assets, uint256 shares)",
   "event RewardPaid(address indexed user, uint256 amount)",
 ];
 

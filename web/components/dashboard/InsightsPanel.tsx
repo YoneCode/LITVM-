@@ -127,7 +127,7 @@ export function InsightsPanel() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Signal
             index={0}
-            label="LTC farm reward runway"
+            label="LTC vault reward runway"
             value={runwayLabel(ltcRunway)}
             state={ltcState}
             level={isFinite(ltcRunway) ? (ltcRunway / 365) * 100 : 100}

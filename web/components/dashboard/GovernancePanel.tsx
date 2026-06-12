@@ -30,7 +30,7 @@ export function GovernancePanel() {
   const isOwner = !!data?.owner && !!address && data.owner.toLowerCase() === address.toLowerCase();
 
   const pauseFarm = () =>
-    runTx({ label: data?.paused ? "Unpause farm" : "Pause farm", send: ({ c }) => (data?.paused ? c.ltcFarm.unpause() : c.ltcFarm.pause()) });
+    runTx({ label: data?.paused ? "Unpause vault" : "Pause vault", send: ({ c }) => (data?.paused ? c.ltcVault.unpause() : c.ltcVault.pause()) });
 
   return (
     <DashPanel className="h-full">
@@ -60,14 +60,14 @@ export function GovernancePanel() {
               </a>
             )}
           </Row>
-          <Row label="LTC farm">
+          <Row label="LTC vault">
             <a
-              href={explorerAddr(ADDRESSES.ltcFarm)}
+              href={explorerAddr(ADDRESSES.ltcVault)}
               target="_blank"
               rel="noopener noreferrer"
               className="nums inline-flex items-center gap-1 text-xs font-medium text-fg transition-colors hover:text-accent"
             >
-              {shortAddr(ADDRESSES.ltcFarm)} <Icon name="external" size={11} />
+              {shortAddr(ADDRESSES.ltcVault)} <Icon name="external" size={11} />
             </a>
           </Row>
           <Row label="VRT farm">
@@ -99,7 +99,7 @@ export function GovernancePanel() {
             )}
           </Row>
           <Row label="Safety (contract)">
-            <a href={explorerAddr(ADDRESSES.ltcFarm)} target="_blank" rel="noopener noreferrer">
+            <a href={explorerAddr(ADDRESSES.ltcVault)} target="_blank" rel="noopener noreferrer">
               <Badge tone="success">
                 <Icon name="check" size={12} strokeWidth={2.2} /> ReentrancyGuard · Pausable
               </Badge>
@@ -120,7 +120,7 @@ export function GovernancePanel() {
               onClick={pauseFarm}
               className="inline-flex items-center justify-center gap-1.5 rounded-md border border-line py-2 text-xs font-medium text-fg-2 transition-colors hover:border-line-hover hover:text-fg disabled:cursor-not-allowed disabled:opacity-40"
             >
-              <Icon name="pause" size={13} /> {data?.paused ? "Unpause" : "Pause"} LTC farm
+              <Icon name="pause" size={13} /> {data?.paused ? "Unpause" : "Pause"} LTC vault
             </button>
           </div>
           {!isOwner && (

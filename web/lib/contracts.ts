@@ -9,6 +9,7 @@ import {
   VAULT_ABI,
   TIMELOCK_ABI,
   YIELDFARM_ABI,
+  LTCVAULT_ABI,
 } from "@/lib/chain";
 
 /**
@@ -37,6 +38,7 @@ export function readContracts(provider: ethers.Provider = readProvider()) {
     timelock: new ethers.Contract(ADDRESSES.timelockStaking, TIMELOCK_ABI, provider),
     ltcFarm: new ethers.Contract(ADDRESSES.ltcFarm, YIELDFARM_ABI, provider),
     vrtFarm: new ethers.Contract(ADDRESSES.vrtFarm, YIELDFARM_ABI, provider),
+    ltcVault: new ethers.Contract(ADDRESSES.ltcVault, LTCVAULT_ABI, provider),
   };
 }
 
@@ -51,6 +53,7 @@ export function writeContracts(signer: ethers.Signer) {
     timelock: new ethers.Contract(ADDRESSES.timelockStaking, TIMELOCK_ABI, signer),
     ltcFarm: new ethers.Contract(ADDRESSES.ltcFarm, YIELDFARM_ABI, signer),
     vrtFarm: new ethers.Contract(ADDRESSES.vrtFarm, YIELDFARM_ABI, signer),
+    ltcVault: new ethers.Contract(ADDRESSES.ltcVault, LTCVAULT_ABI, signer),
   };
 }
 

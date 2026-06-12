@@ -118,18 +118,18 @@ export function ActionsPanel() {
     const amt = parseAmount(stakeLtc);
     if (!amt) return;
     const ok = await runTx({
-      label: "Stake WzkLTC",
-      approval: { token: (c) => c.wzkltc, spender: ADDRESSES.ltcFarm, amount: amt, symbol: "WzkLTC" },
-      send: ({ c }) => c.ltcFarm.stake(amt),
+      label: "Deposit WzkLTC",
+      approval: { token: (c) => c.wzkltc, spender: ADDRESSES.ltcVault, amount: amt, symbol: "WzkLTC" },
+      send: ({ c, address }) => c.ltcVault.deposit(amt, address),
     });
     if (ok) setStakeLtc("");
   };
   const doUnstakeLtc = async () => {
     const amt = parseAmount(unstakeLtc);
     if (!amt) return;
-    if (await runTx({ label: "Withdraw WzkLTC", send: ({ c }) => c.ltcFarm.withdraw(amt) })) setUnstakeLtc("");
+    if (await runTx({ label: "Withdraw WzkLTC", send: ({ c, address }) => c.ltcVault.withdraw(amt, address, address) })) setUnstakeLtc("");
   };
-  const claimLtc = () => runTx({ label: "Claim VRT (LTC farm)", send: ({ c }) => c.ltcFarm.claim() });
+  const claimLtc = () => runTx({ label: "Claim VRT (LTC vault)", send: ({ c }) => c.ltcVault.claim() });
 
   /* --- VRT farm: stake VRT, earn VRT --- */
   const doStakeVrt = async () => {
@@ -203,8 +203,8 @@ export function ActionsPanel() {
           <>
             <EarnedRow earned={data?.ltcEarned} accrualPerSec={ltcRate} onClaim={claimLtc} disabled={busy} />
             <div className="flex flex-col gap-3">
-              <AmountInput label="Stake WzkLTC" value={stakeLtc} onChange={setStakeLtc} suffix="WzkLTC" balance={data?.wzkltc} />
-              <ActionButton onClick={doStakeLtc} disabled={busy || !parseAmount(stakeLtc)}>Approve &amp; Stake</ActionButton>
+              <AmountInput label="Deposit WzkLTC" value={stakeLtc} onChange={setStakeLtc} suffix="WzkLTC" balance={data?.wzkltc} />
+              <ActionButton onClick={doStakeLtc} disabled={busy || !parseAmount(stakeLtc)}>Approve &amp; Deposit</ActionButton>
             </div>
             <hr className="border-line" />
             <div className="flex flex-col gap-3">
@@ -212,7 +212,7 @@ export function ActionsPanel() {
               <ActionButton variant="secondary" onClick={doUnstakeLtc} disabled={busy || !parseAmount(unstakeLtc)}>Withdraw</ActionButton>
             </div>
             <p className="text-xms leading-relaxed text-fg-3">
-              Staked WzkLTC earns VRT every second, claimable any time. Withdraw your WzkLTC whenever you want; withdrawing also pays out your pending VRT.
+              Deposit WzkLTC into the ERC-4626 vault to receive lyvWzkLTC shares and earn VRT every second, claimable any time. Withdraw your WzkLTC whenever you want.
             </p>
           </>
         )}

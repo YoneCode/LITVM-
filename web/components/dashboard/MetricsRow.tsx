@@ -77,7 +77,7 @@ export function MetricsRow() {
           <div aria-hidden className="pointer-events-none absolute inset-0 grid-lines opacity-30" />
           <div className="relative flex items-center gap-2 text-fg-3">
             <Icon name="vault" size={16} />
-            <span className="text-xms font-medium uppercase tracking-[0.07em]">LTC Yield Farm · TVL</span>
+            <span className="text-xms font-medium uppercase tracking-[0.07em]">LTC Yield Vault · TVL</span>
           </div>
           <div className="relative mt-4">
             <p className="flex items-baseline gap-2">

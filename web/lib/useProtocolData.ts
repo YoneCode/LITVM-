@@ -42,14 +42,14 @@ export function useProtocolStats(): Async<ProtocolStats> {
         faucetPool,
         paused,
       ] = await Promise.all([
-        c.ltcFarm.totalStaked() as Promise<bigint>,
+        c.ltcVault.totalAssets() as Promise<bigint>,
         c.vrtFarm.totalStaked() as Promise<bigint>,
-        c.ltcFarm.rewardPerDay() as Promise<bigint>,
+        c.ltcVault.rewardPerDay() as Promise<bigint>,
         c.vrtFarm.rewardPerDay() as Promise<bigint>,
-        c.ltcFarm.rewardsAvailable() as Promise<bigint>,
+        c.ltcVault.rewardsAvailable() as Promise<bigint>,
         c.vrtFarm.rewardsAvailable() as Promise<bigint>,
         c.vrt.balanceOf(ADDRESSES.faucet) as Promise<bigint>,
-        c.ltcFarm.paused().catch(() => false) as Promise<boolean>,
+        c.ltcVault.paused().catch(() => false) as Promise<boolean>,
       ]);
 
       const ltcRewardPerDay = Number(ethers.formatEther(ltcRewardPerDayWei));
@@ -146,8 +146,8 @@ export function useAccountData(address: string | null): Async<AccountData> {
         provider.getBalance(address),
         c.wzkltc.balanceOf(address) as Promise<bigint>,
         c.vrt.balanceOf(address) as Promise<bigint>,
-        c.ltcFarm.balanceOf(address) as Promise<bigint>,
-        c.ltcFarm.earned(address) as Promise<bigint>,
+        c.ltcVault.balanceOf(address) as Promise<bigint>,
+        c.ltcVault.earned(address) as Promise<bigint>,
         c.vrtFarm.balanceOf(address) as Promise<bigint>,
         c.vrtFarm.earned(address) as Promise<bigint>,
         c.faucet.timeUntilClaim(address) as Promise<bigint>,
@@ -212,9 +212,9 @@ export function useGovernanceInfo(): Async<GovernanceInfo> {
     const c = readContracts();
     try {
       const [owner, paused, ltcRpd, vrtRpd, faucetAmt, faucetCd] = await Promise.all([
-        c.ltcFarm.owner().catch(() => "") as Promise<string>,
-        c.ltcFarm.paused().catch(() => false) as Promise<boolean>,
-        c.ltcFarm.rewardPerDay() as Promise<bigint>,
+        c.ltcVault.owner().catch(() => "") as Promise<string>,
+        c.ltcVault.paused().catch(() => false) as Promise<boolean>,
+        c.ltcVault.rewardPerDay() as Promise<bigint>,
         c.vrtFarm.rewardPerDay() as Promise<bigint>,
         c.faucet.CLAIM_AMOUNT() as Promise<bigint>,
         c.faucet.COOLDOWN() as Promise<bigint>,

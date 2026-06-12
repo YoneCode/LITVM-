@@ -56,26 +56,26 @@ export function useActivity(address: string | null) {
 
       // Each source is queried independently; a single failure won't blank the feed.
       const sources: Array<Promise<Raw[]>> = [
-        safeQuery(c.ltcFarm, c.ltcFarm.filters.Staked(address), from, latest, (log) => ({
+        safeQuery(c.ltcVault, c.ltcVault.filters.Deposit(null, address), from, latest, (log) => ({
           id: logId(log),
           kind: "stake",
-          title: "Staked WzkLTC",
-          amountLabel: `+${fmt(log.args?.amount)} WzkLTC`,
+          title: "Deposited WzkLTC",
+          amountLabel: `+${fmt(log.args?.assets)} WzkLTC`,
           txHash: log.transactionHash,
           blockNumber: log.blockNumber,
         })),
-        safeQuery(c.ltcFarm, c.ltcFarm.filters.Withdrawn(address), from, latest, (log) => ({
+        safeQuery(c.ltcVault, c.ltcVault.filters.Withdraw(null, null, address), from, latest, (log) => ({
           id: logId(log),
           kind: "withdraw",
           title: "Withdrew WzkLTC",
-          amountLabel: `-${fmt(log.args?.amount)} WzkLTC`,
+          amountLabel: `-${fmt(log.args?.assets)} WzkLTC`,
           txHash: log.transactionHash,
           blockNumber: log.blockNumber,
         })),
-        safeQuery(c.ltcFarm, c.ltcFarm.filters.RewardPaid(address), from, latest, (log) => ({
+        safeQuery(c.ltcVault, c.ltcVault.filters.RewardPaid(address), from, latest, (log) => ({
           id: logId(log),
           kind: "reward",
-          title: "Claimed VRT (LTC farm)",
+          title: "Claimed VRT (LTC vault)",
           amountLabel: `+${fmt(log.args?.amount)} VRT`,
           txHash: log.transactionHash,
           blockNumber: log.blockNumber,

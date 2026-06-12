@@ -62,7 +62,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
     ];
 
     const actions: Cmd[] = [
-      { id: "claim-ltc", label: "Claim VRT — LTC farm", hint: "Harvest WzkLTC rewards", icon: "claim", group: "Actions", run: act(() => runTx({ label: "Claim VRT (LTC farm)", send: ({ c }) => c.ltcFarm.claim() })) },
+      { id: "claim-ltc", label: "Claim VRT — LTC vault", hint: "Harvest WzkLTC vault rewards", icon: "claim", group: "Actions", run: act(() => runTx({ label: "Claim VRT (LTC vault)", send: ({ c }) => c.ltcVault.claim() })) },
       { id: "claim-vrt", label: "Claim VRT — VRT farm", hint: "Harvest VRT rewards", icon: "claim", group: "Actions", run: act(() => runTx({ label: "Claim VRT (VRT farm)", send: ({ c }) => c.vrtFarm.claim() })) },
       { id: "faucet", label: "Claim 10 VRT from faucet", hint: "Once per 24h", icon: "claim", group: "Actions", run: act(() => runTx({ label: "Claim faucet", send: ({ c }) => c.faucet.claim() })) },
       { id: "wrap", label: "Wrap / stake", hint: "Open the Manage panel", icon: "deposit", group: "Actions", run: go("position") },

@@ -109,7 +109,7 @@ export function PositionsTable() {
   const vrtRate =
     data && proto ? perSecondAccrual(data.vrtStaked, proto.vrtStaked, proto.vrtRewardPerDay) : 0;
 
-  const claimLtc = () => runTx({ label: "Claim VRT (LTC farm)", send: ({ c }) => c.ltcFarm.claim() });
+  const claimLtc = () => runTx({ label: "Claim VRT (LTC vault)", send: ({ c }) => c.ltcVault.claim() });
   const claimVrt = () => runTx({ label: "Claim VRT (VRT farm)", send: ({ c }) => c.vrtFarm.claim() });
 
   const totalClaimable = (data?.ltcEarned ?? 0n) + (data?.vrtEarned ?? 0n);
@@ -143,8 +143,8 @@ export function PositionsTable() {
             </div>
 
             <FarmCard
-              title="LTC Yield Farm — stake WzkLTC, earn VRT"
-              stakedLabel="Staked"
+              title="LTC Yield Vault (ERC-4626) — deposit WzkLTC, earn VRT"
+              stakedLabel="Deposited"
               staked={data?.ltcStaked}
               stakeUnit="WzkLTC"
               earned={data?.ltcEarned}
