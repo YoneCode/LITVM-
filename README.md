@@ -1,14 +1,16 @@
 # LitVM Yield
 
-**Stake wrapped Litecoin, earn VRT.** A non-custodial single-sided staking farm on the
-LitVM LiteForge testnet — Litecoin's zkEVM. Deposit `WzkLTC`, earn `VRT` rewards credited
-per address on a reward-per-share basis, claimable any time, with no lock-up.
+**Stake wrapped Litecoin, earn VRT.** A non-custodial **ERC-4626 yield vault** on the
+LitVM LiteForge testnet — Litecoin's zkEVM. Deposit `WzkLTC` into the vault, receive standard
+4626 shares, and earn `VRT` rewards credited per holder on a reward-per-share basis, claimable
+any time, with no lock-up. A second MasterChef-style farm lets you stake `VRT` to earn more `VRT`.
 
 ![LitVM](https://img.shields.io/badge/LitVM-LiteForge%20Testnet-E0883C?style=for-the-badge)
 ![Chain ID](https://img.shields.io/badge/Chain%20ID-4441-17140E?style=for-the-badge)
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-2B2B2B?style=for-the-badge&logo=solidity&logoColor=white)
+![ERC-4626](https://img.shields.io/badge/Standard-ERC--4626-E0883C?style=for-the-badge)
 ![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Foundry tests](https://img.shields.io/badge/Foundry%20tests-12%2F12-3FAE5A?style=for-the-badge)
+![Foundry tests](https://img.shields.io/badge/Foundry%20tests-27%2F27-3FAE5A?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-555555?style=for-the-badge)
 
 ---
@@ -17,13 +19,13 @@ per address on a reward-per-share basis, claimable any time, with no lock-up.
 
 | Property | Value |
 |---|---|
-| **Primitive** | Single-sided staking farm (reward-per-share, MasterChef-style accounting) |
-| **Stake / earn** | `WzkLTC` to `VRT`  ·  `VRT` to `VRT` |
-| **Reward model** | Fixed emission per second, split pro-rata by stake — no APR promised, no price oracle |
-| **Per-action cost** | **O(1)** — stake / withdraw / claim touch only the caller's slot and one global accumulator |
-| **Scalability** | No iteration over stakers; the same gas at 10 users or 100k+ users |
-| **Custody** | Non-custodial. Principal is always withdrawable; reward payouts are balance-capped and never block a withdrawal |
-| **Rewards reach** | Credited to each staker's address and claimable directly, not trapped in a vault |
+| **Primitive** | ERC-4626 vault (WzkLTC) that streams a reward token (VRT), plus a MasterChef-style VRT staking farm |
+| **Stake / earn** | deposit `WzkLTC` to the 4626 vault → earn `VRT`  ·  stake `VRT` → earn `VRT` |
+| **Reward model** | Reward-per-share, fixed emission per second split pro-rata by shares — no APR promised, no price oracle |
+| **Per-action cost** | **O(1)** — deposit / withdraw / claim touch only the caller's slot and one global accumulator |
+| **Scalability** | No iteration over holders; the same gas at 10 users or 100k+ users |
+| **Custody** | Non-custodial. Principal (WzkLTC) is always withdrawable; reward payouts are balance-capped and never block a withdrawal |
+| **Rewards reach** | Credited to each holder's address and claimable directly — settled on every share transfer, never trapped |
 | **Network fit** | Serves LitVM mission — enable yield-generation opportunities for LTC holders |
 
 Every figure in the app is a live on-chain read, and the client-side reward tick is always
@@ -56,7 +58,7 @@ A rate-limited faucet gives **10 VRT per address / 24h** so anyone can exercise 
 
 | Contract | Address | Role |
 |---|---|---|
-| LTC Yield Farm | [`0x00Ab77F155063D0184d21e25AE43Da6381bb6CBb`](https://liteforge.explorer.caldera.xyz/address/0x00Ab77F155063D0184d21e25AE43Da6381bb6CBb) | Stake `WzkLTC` to earn `VRT` |
+| LTC Yield Vault (ERC-4626) | [`0x1fa8b99b6f91ED960F5Ff2B7f7f82FBfBd586c76`](https://liteforge.explorer.caldera.xyz/address/0x1fa8b99b6f91ED960F5Ff2B7f7f82FBfBd586c76) | Deposit `WzkLTC` (4626) → earn `VRT` |
 | VRT Farm | [`0xD352A21aa4562ea52fAe6A0cED290d6772FC6b8E`](https://liteforge.explorer.caldera.xyz/address/0xD352A21aa4562ea52fAe6A0cED290d6772FC6b8E) | Stake `VRT` to earn `VRT` |
 | WzkLTC | [`0x323D1aB76a9e2AA63cda313A0709A7891cbEcc67`](https://liteforge.explorer.caldera.xyz/address/0x323D1aB76a9e2AA63cda313A0709A7891cbEcc67) | Wrapped zkLTC (ERC-20) |
 | VaultRewardToken (VRT) | [`0x62bf26Aa2eA6F24Edd94bd427F27cc01f37f9Ff4`](https://liteforge.explorer.caldera.xyz/address/0x62bf26Aa2eA6F24Edd94bd427F27cc01f37f9Ff4) | Reward token · fixed 100M supply |
@@ -72,7 +74,8 @@ A rate-limited faucet gives **10 VRT per address / 24h** so anyone can exercise 
 ```
 .
 ├── contracts/                   Solidity (Foundry + Hardhat)
-│   ├── src/YieldFarm.sol         reward-per-share staking farm (the core primitive)
+│   ├── src/YieldFarm.sol         reward-per-share staking farm (VRT staking)
+│   ├── src/LTCYieldVault.sol     ERC-4626 WzkLTC vault that distributes VRT
 │   ├── src/WzkLTC.sol            wrapped zkLTC (WETH pattern)
 │   ├── src/VaultRewardToken.sol  VRT, fixed 100M supply
 │   ├── src/TokenFaucet.sol       rate-limited faucet
