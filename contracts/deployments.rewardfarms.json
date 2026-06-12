@@ -1,0 +1,19 @@
+{
+  "network": "litvm_testnet",
+  "chainId": 4441,
+  "deployer": "0x541b4AA0803a5155be8B5CE8CFaF744FaEDED506",
+  "farms": {
+    "ltcYieldFarm": {
+      "address": "0x00Ab77F155063D0184d21e25AE43Da6381bb6CBb",
+      "stakeToken": "0x323D1aB76a9e2AA63cda313A0709A7891cbEcc67",
+      "rewardToken": "0x62bf26Aa2eA6F24Edd94bd427F27cc01f37f9Ff4",
+      "rewardRatePerSec": "1000000000000000"
+    },
+    "vrtStakingFarm": {
+      "address": "0xD352A21aa4562ea52fAe6A0cED290d6772FC6b8E",
+      "stakeToken": "0x62bf26Aa2eA6F24Edd94bd427F27cc01f37f9Ff4",
+      "rewardToken": "0x62bf26Aa2eA6F24Edd94bd427F27cc01f37f9Ff4",
+      "rewardRatePerSec": "500000000000000"
+    }
+  }
+}

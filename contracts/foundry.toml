@@ -1,0 +1,15 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+remappings = [
+    "@openzeppelin/=lib/openzeppelin-contracts/"
+]
+
+[rpc_endpoints]
+litvm_testnet = "https://liteforge.rpc.caldera.xyz/http"
+
+[etherscan]
+litvm_testnet = { key = "", url = "https://liteforge.explorer.caldera.xyz/api" }
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

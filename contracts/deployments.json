@@ -1,0 +1,15 @@
+{
+  "network": "litvm_testnet",
+  "chainId": 4441,
+  "deployer": "0x541b4AA0803a5155be8B5CE8CFaF744FaEDED506",
+  "timestamp": "2025-04-24T14:00:00.000Z",
+  "contracts": {
+    "WzkLTC": "0x323D1aB76a9e2AA63cda313A0709A7891cbEcc67",
+    "VaultRewardToken": "0x62bf26Aa2eA6F24Edd94bd427F27cc01f37f9Ff4",
+    "TokenFaucet": "0x8E6804e22e89d16b4219c7b16F29693044141Ab3",
+    "SimpleYieldStrategy": "0xB60D2cAc0BC5334e706391ee2Da5B513a0d704e6",
+    "LTCYieldVault": "0x6522245155A9EfAAb6686d22d4d46D906FB27A32",
+    "TimelockVRTStaking": "0xC702D4A4267Cb1fe6209BccA03B8551A573b5d0a"
+  },
+  "timelockDeployedAt": "2026-04-24T18:41:44.254Z"
+}
