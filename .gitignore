@@ -8,6 +8,10 @@ node_modules/
 .pnp
 .pnp.*
 
+# web lockfile intentionally untracked: Privy's floating @solana/* transitive
+# deps make `npm ci` reject the lock; Cloudflare then uses `npm install`, which resolves cleanly.
+web/package-lock.json
+
 # ── Next.js / web build output ──────────────────────────
 .next/
 out/
